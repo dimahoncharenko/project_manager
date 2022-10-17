@@ -1,0 +1,66 @@
+type Client {
+  id: ID
+  name: String
+  email: String
+  phone: String
+}
+
+type Project {
+  id: ID
+  clientID: ID
+  name: String
+  description: String
+  status: String
+  client: Client
+}
+
+input ClientParams {
+  id: ID!
+}
+
+input ProjectParams {
+  id: ID!
+}
+
+type Query {
+  allClients: [Client]
+  client(input: ClientParams!): Client
+  allProjects: [Project]
+  project(input: ProjectParams!): Project
+}
+
+input AddClientArgs {
+  name: String!
+  phone: String!
+  email: String!
+}
+
+input DeleteClientArgs {
+  id: ID!
+}
+
+input AddProjectArgs {
+  name: String!
+  description: String
+  status: String
+  clientID: String
+}
+
+input DeleteProjectArgs {
+  id: ID!
+}
+
+input UpdateProjectArgs {
+  projectID: ID!
+  name: String
+  description: String
+  status: String
+}
+
+type Mutation {
+  addClient(input: AddClientArgs!): Client
+  deleteClient(input: DeleteClientArgs!): Boolean
+  addProject(input: AddProjectArgs!): Project
+  deleteProject(input: DeleteProjectArgs!): Boolean
+  updateProject(input: UpdateProjectArgs!): Project
+}

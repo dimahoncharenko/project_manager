@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node ./build/bundle.js",
     "start:dev": "nodemon --files ./src/index.ts",
-    "build": "webpack --mode production --config ./src/webpack.config.ts",
+    "build": "npm install && webpack --mode production --config ./src/webpack.config.ts",
     "build:dev": "webpack --mode development --config ./src/webpack.config.ts --watch",
     "schema:gen": "npx gql2ts ./src/graphql/typeDefs.graphql -o ./src/graphql/schema.d.ts"
   },

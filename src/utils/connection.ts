@@ -8,8 +8,12 @@ config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: +process.env.DB_PORT!,
+  host:
+    process.env.NODE_ENV === "production"
+      ? process.env.PRODUCTION_DB_HOST
+      : process.env.DB_HOST,
+
+  port: Number(process.env.DB_PORT!),
 
   username:
     process.env.NODE_ENV === "production"
@@ -29,6 +33,4 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: true,
   entities: [Client, Project],
-  subscribers: [],
-  migrations: [],
 });

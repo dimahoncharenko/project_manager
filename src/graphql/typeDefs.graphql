@@ -3,6 +3,7 @@ type Client {
   name: String
   email: String
   phone: String
+  project: [Project]
 }
 
 type Project {
@@ -57,9 +58,17 @@ input UpdateProjectArgs {
   status: String
 }
 
+input UpdateClientArgs {
+  clientID: ID!
+  name: String
+  phone: String
+  email: String
+}
+
 type Mutation {
   addClient(input: AddClientArgs!): Client
   deleteClient(input: DeleteClientArgs!): Boolean
+  updateClient(input: UpdateClientArgs!): Client
   addProject(input: AddProjectArgs!): Project
   deleteProject(input: DeleteProjectArgs!): Boolean
   updateProject(input: UpdateProjectArgs!): Project

@@ -5,7 +5,7 @@
   "main": "index.js",
   "typings": "./types/main.d.ts",
   "scripts": {
-    "start": "node ./build/bundle.js",
+    "start": "set NODE_ENV=production && node ./build/bundle.js",
     "start:dev": "nodemon --files ./src/index.ts",
     "build": "npm install && webpack --mode production --config ./src/webpack.config.ts",
     "build:dev": "webpack --mode development --config ./src/webpack.config.ts --watch",

@@ -9,7 +9,7 @@ export default {
     async allClients(parent: unknown, args: unknown, context: DataSource) {
       try {
         const res: Client[] = await context.query(`
-          SELECT * FROM clients;      
+          SELECT * FROM clients;
         `);
 
         return res;
@@ -43,8 +43,8 @@ export default {
     async allProjects(parent: unknown, args: unknown, context: DataSource) {
       try {
         const res: Project[] = await context.query(`
-          SELECT * 
-          FROM projects;      
+          SELECT *
+          FROM projects;
         `);
 
         return res;
@@ -122,7 +122,35 @@ export default {
         }
       }
     },
+    async updateClient(
+      _: unknown,
+      // @ts-ignore
+      { id, username, phone, email }: GQL.IUpdateClientArgs,
+      context: DataSource
+    ) {
+      try {
+        await context.manager.update(
+          Client,
+          { id },
+          {
+            name: username!,
+            phone,
+            email,
+          }
+        );
 
+        const res = await context.manager.findOneBy(Client, {
+          id,
+        });
+
+        return res;
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(err.message);
+          return err;
+        }
+      }
+    },
     async addProject(
       _: unknown,
       { input }: GQL.IAddProjectOnMutationArguments,
@@ -200,11 +228,24 @@ export default {
       }
     },
   },
+  Client: {
+    async project(parent: Client, _: unknown, context: DataSource) {
+      try {
+        const projects = await context.manager.findBy(Project, {
+          clientID: parent.id,
+        });
 
+        return projects;
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(err.message);
+          return err;
+        }
+      }
+    },
+  },
   Project: {
     async client(parent: Project, _: unknown, context: DataSource) {
-      console.log(parent);
-
       try {
         const client = parent.clientID
           ? await context.manager.findOne(Client, {
